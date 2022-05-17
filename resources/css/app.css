@@ -1,3 +1,23 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+table.table {
+    @apply min-w-full divide-y divide-gray-200 border
+}
+
+table.table thead.table-header > tr > th {
+    @apply px-6 py-3 bg-gray-50 text-left
+}
+
+table.table thead.table-header > tr > th > span {
+    @apply text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider
+}
+
+table.table tbody.table-body {
+    @apply bg-white divide-y divide-gray-200 divide-solid
+}
+
+table.table tbody.table-body > tr > td {
+    @apply px-6 py-4 text-sm leading-5 text-gray-900
+}

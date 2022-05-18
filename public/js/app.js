@@ -2220,7 +2220,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
 
       axios.get('/api/posts').then(function (response) {
         return _this2.setState({
-          posts: response.data
+          posts: response.data.data
         });
       });
     }

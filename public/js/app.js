@@ -2218,11 +2218,23 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
     value: function fetchPosts() {
       var _this2 = this;
 
-      axios.get('/api/posts').then(function (response) {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/posts', {
+        params: {
+          page: page
+        }
+      }).then(function (response) {
         return _this2.setState({
-          posts: response.data.data
+          posts: response.data
         });
       });
+    }
+  }, {
+    key: "pageChanged",
+    value: function pageChanged(url) {
+      var fullUrl = new URL(url);
+      var page = fullUrl.searchParams.get('page');
+      this.fetchPosts(page);
     }
   }, {
     key: "componentDidMount",
@@ -2232,7 +2244,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderPosts",
     value: function renderPosts() {
-      return this.state.posts.map(function (post) {
+      return this.state.posts.data.map(function (post) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("tr", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
             children: post.id
@@ -2243,17 +2255,69 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
             children: post.created_at
           })]
-        });
+        }, post.id);
+      });
+    }
+  }, {
+    key: "renderPaginatorLinks",
+    value: function renderPaginatorLinks() {
+      var _this3 = this;
+
+      return this.state.posts.meta.links.map(function (link, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          onClick: function onClick() {
+            return _this3.pageChanged(link.url);
+          },
+          dangerouslySetInnerHTML: {
+            __html: link.label
+          },
+          className: "relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 first:rounded-l-md last:rounded-r-md"
+        }, index);
+      });
+    }
+  }, {
+    key: "renderPaginator",
+    value: function renderPaginator() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("nav", {
+        role: "navigation",
+        "aria-label": "Pagination Navigation",
+        className: "flex items-center justify-between",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "hidden sm:flex-1 sm:flex sm:items-center sm:justify-between",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+              className: "text-sm text-gray-700 leading-5",
+              children: ["Showing", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                  className: "font-medium",
+                  children: [" ", this.state.posts.meta.from, " "]
+                }), "to", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                  className: "font-medium",
+                  children: [" ", this.state.posts.meta.to, " "]
+                })]
+              }), "of", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                className: "font-medium",
+                children: [" ", this.state.posts.meta.total, " "]
+              }), "results"]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              className: "relative z-0 inline-flex shadow-sm rounded-md",
+              children: this.renderPaginatorLinks()
+            })
+          })]
+        })
       });
     }
   }, {
     key: "render",
     value: function render() {
+      if (!('data' in this.state.posts)) return;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "overflow-hidden overflow-x-auto p-6 bg-white border-gray-200",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "min-w-full align-middle",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("table", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("table", {
             className: "table",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("thead", {
               className: "table-header",
@@ -2280,7 +2344,10 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
               className: "table-body",
               children: this.renderPosts()
             })]
-          })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "mt-4",
+            children: this.renderPaginator()
+          })]
         })
       });
     }

@@ -14,6 +14,7 @@ class PostsIndex extends Component {
         }
 
         this.categoryChanged = this.categoryChanged.bind(this)
+        this.pageChanged = this.pageChanged.bind(this)
     }
 
     fetchPosts() {
@@ -28,9 +29,11 @@ class PostsIndex extends Component {
 
     pageChanged(url) {
         const fullUrl = new URL(url);
-        this.state.query.page = fullUrl.searchParams.get('page')
-
-        this.fetchPosts()
+        this.setState(({
+            query: {
+                page: fullUrl.searchParams.get('page')
+            }
+        }), () => this.fetchPosts())
     }
 
     categoryChanged(event) {

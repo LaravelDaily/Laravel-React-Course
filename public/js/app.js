@@ -2216,6 +2216,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       }
     };
     _this.categoryChanged = _this.categoryChanged.bind(_assertThisInitialized(_this));
+    _this.pageChanged = _this.pageChanged.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2246,14 +2247,21 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "pageChanged",
     value: function pageChanged(url) {
+      var _this4 = this;
+
       var fullUrl = new URL(url);
-      this.state.query.page = fullUrl.searchParams.get('page');
-      this.fetchPosts();
+      this.setState({
+        query: {
+          page: fullUrl.searchParams.get('page')
+        }
+      }, function () {
+        return _this4.fetchPosts();
+      });
     }
   }, {
     key: "categoryChanged",
     value: function categoryChanged(event) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.setState({
         query: {
@@ -2261,7 +2269,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
           page: 1
         }
       }, function () {
-        return _this4.fetchPosts();
+        return _this5.fetchPosts();
       });
     }
   }, {
@@ -2309,12 +2317,12 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderPaginatorLinks",
     value: function renderPaginatorLinks() {
-      var _this5 = this;
+      var _this6 = this;
 
       return this.state.posts.meta.links.map(function (link, index) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           onClick: function onClick() {
-            return _this5.pageChanged(link.url);
+            return _this6.pageChanged(link.url);
           },
           dangerouslySetInnerHTML: {
             __html: link.label

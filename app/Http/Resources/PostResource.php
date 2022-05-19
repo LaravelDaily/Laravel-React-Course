@@ -9,7 +9,7 @@ class PostResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -17,6 +17,10 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'category' => [
+                'id' => $this->category->id,
+                'name' => $this->category->name,
+            ],
             'content' => substr($this->content, 0, 50) . '...',
             'created_at' => $this->created_at->toDateTimeString()
         ];

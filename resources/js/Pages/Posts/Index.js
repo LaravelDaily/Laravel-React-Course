@@ -29,6 +29,7 @@ class PostsIndex extends Component {
         return this.state.posts.data.map(post => <tr key={post.id}>
             <td>{ post.id }</td>
             <td>{ post.title }</td>
+            <td>{ post.category.name }</td>
             <td>{ post.content }</td>
             <td>{ post.created_at }</td>
         </tr>);
@@ -82,6 +83,9 @@ class PostsIndex extends Component {
                             </th>
                             <th>
                                 <span>Title</span>
+                            </th>
+                            <th>
+                                <span>Category</span>
                             </th>
                             <th>
                                 <span>Content</span>

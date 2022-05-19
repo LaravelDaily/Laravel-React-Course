@@ -1351,6 +1351,10 @@ table.table tbody.table-body > tr > td {
     margin-left: 0px;
   }
 
+  .sm\:mt-0 {
+    margin-top: 0px;
+  }
+
   .sm\:block {
     display: block;
   }
@@ -1365,6 +1369,10 @@ table.table tbody.table-body > tr > td {
 
   .sm\:h-20 {
     height: 5rem;
+  }
+
+  .sm\:w-1\/4 {
+    width: 25%;
   }
 
   .sm\:max-w-md {

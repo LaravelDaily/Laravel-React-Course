@@ -2208,8 +2208,14 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      posts: []
+      posts: [],
+      categories: [],
+      query: {
+        page: 1,
+        category_id: ''
+      }
     };
+    _this.categoryChanged = _this.categoryChanged.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2218,11 +2224,8 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
     value: function fetchPosts() {
       var _this2 = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('/api/posts', {
-        params: {
-          page: page
-        }
+        params: this.state.query
       }).then(function (response) {
         return _this2.setState({
           posts: response.data
@@ -2230,15 +2233,41 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "fetchCategories",
+    value: function fetchCategories() {
+      var _this3 = this;
+
+      axios.get('/api/categories').then(function (response) {
+        return _this3.setState({
+          categories: response.data.data
+        });
+      });
+    }
+  }, {
     key: "pageChanged",
     value: function pageChanged(url) {
       var fullUrl = new URL(url);
-      var page = fullUrl.searchParams.get('page');
-      this.fetchPosts(page);
+      this.state.query.page = fullUrl.searchParams.get('page');
+      this.fetchPosts();
+    }
+  }, {
+    key: "categoryChanged",
+    value: function categoryChanged(event) {
+      var _this4 = this;
+
+      this.setState({
+        query: {
+          category_id: event.target.value,
+          page: 1
+        }
+      }, function () {
+        return _this4.fetchPosts();
+      });
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
+      this.fetchCategories();
       this.fetchPosts();
     }
   }, {
@@ -2261,14 +2290,31 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "renderCategoryFilter",
+    value: function renderCategoryFilter() {
+      var categories = this.state.categories.map(function (category) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: category.id,
+          children: category.name
+        }, category.id);
+      });
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+        onChange: this.categoryChanged,
+        className: "mt-1 w-full sm:mt-0 sm:w-1/4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          children: "-- all categories --"
+        }), categories]
+      });
+    }
+  }, {
     key: "renderPaginatorLinks",
     value: function renderPaginatorLinks() {
-      var _this3 = this;
+      var _this5 = this;
 
       return this.state.posts.meta.links.map(function (link, index) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           onClick: function onClick() {
-            return _this3.pageChanged(link.url);
+            return _this5.pageChanged(link.url);
           },
           dangerouslySetInnerHTML: {
             __html: link.label
@@ -2319,7 +2365,10 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
         className: "overflow-hidden overflow-x-auto p-6 bg-white border-gray-200",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "min-w-full align-middle",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("table", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "mb-4",
+            children: this.renderCategoryFilter()
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("table", {
             className: "table",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("thead", {
               className: "table-header",

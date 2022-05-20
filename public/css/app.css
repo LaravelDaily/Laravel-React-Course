@@ -1143,7 +1143,10 @@ table.table thead.table-header > tr > th {
   padding-bottom: 0.75rem;
   text-align: left;
 }
-table.table thead.table-header > tr > th > span {
+table.table thead.table-header > tr > th > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -1151,6 +1154,10 @@ table.table thead.table-header > tr > th > span {
   letter-spacing: 0.05em;
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+table.table thead.table-header .column-sort {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 table.table tbody.table-body > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-y-reverse: 0;

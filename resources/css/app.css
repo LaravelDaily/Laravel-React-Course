@@ -10,8 +10,12 @@ table.table thead.table-header > tr > th {
     @apply px-6 py-3 bg-gray-50 text-left
 }
 
-table.table thead.table-header > tr > th > span {
-    @apply text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider
+table.table thead.table-header > tr > th > div {
+    @apply flex items-center justify-between text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider
+}
+
+table.table thead.table-header .column-sort {
+    @apply text-lg
 }
 
 table.table tbody.table-body {

@@ -22,7 +22,7 @@ class PostController extends Controller
             $orderColumn = 'id';
         }
         if (!in_array($orderDirection, ['asc', 'desc'])) {
-            $orderColumn = 'desc';
+            $orderDirection = 'desc';
         }
 
         $posts = Post::with('category')

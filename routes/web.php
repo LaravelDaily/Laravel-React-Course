@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'layouts.app');
 
-require __DIR__.'/auth.php';
+Route::view('/{any?}', 'layouts.app')->where('any', '.*');

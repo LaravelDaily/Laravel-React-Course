@@ -1,4 +1,5 @@
 import {Component} from "react";
+import CategoriesService from "../../Services/CategoriesService";
 
 class PostsIndex extends Component {
     constructor(props) {
@@ -25,11 +26,6 @@ class PostsIndex extends Component {
             .then(response => this.setState({posts: response.data}))
     }
 
-    fetchCategories() {
-        axios.get('/api/categories')
-            .then(response => this.setState({categories: response.data.data}))
-    }
-
     pageChanged(url) {
         const fullUrl = new URL(url);
         this.setState(({
@@ -49,7 +45,8 @@ class PostsIndex extends Component {
     }
 
     componentDidMount() {
-        this.fetchCategories()
+        CategoriesService.getAll()
+            .then(response => this.setState({categories: response.data.data}))
         this.fetchPosts()
     }
 

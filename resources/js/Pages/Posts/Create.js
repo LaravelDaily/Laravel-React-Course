@@ -1,4 +1,5 @@
 import {Component} from "react";
+import CategoriesService from "../../Services/CategoriesService";
 
 class PostsCreate extends Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class PostsCreate extends Component {
         this.state = {
             title: '',
             content: '',
-            category_id: ''
+            category_id: '',
+            categories: []
         }
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -33,6 +35,11 @@ class PostsCreate extends Component {
         event.preventDefault();
     }
 
+    componentDidMount() {
+        CategoriesService.getAll()
+            .then(response => this.setState({categories: response.data.data}))
+    }
+
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
@@ -54,6 +61,9 @@ class PostsCreate extends Component {
                     </label>
                     <select value={this.state.category_id} onChange={this.handleCategoryChange} id="category" className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option value="">-- Select category --</option>
+                        { this.state.categories.map((category, index) => (
+                            <option key={index} value={category.id}>{ category.name }</option>
+                        )) }
                     </select>
                 </div>
                 <div className="mt-4">

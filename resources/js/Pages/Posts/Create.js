@@ -1,5 +1,10 @@
 import {Component} from "react";
 import CategoriesService from "../../Services/CategoriesService";
+import { useNavigate } from "react-router-dom";
+
+export const withNavigation = (Component) => {
+    return props => <Component {...props} navigate={useNavigate()} />;
+}
 
 class PostsCreate extends Component {
     constructor(props) {
@@ -31,8 +36,13 @@ class PostsCreate extends Component {
     }
 
     handleSubmit(event) {
-        console.log(JSON.stringify(this.state));
         event.preventDefault();
+
+        axios.post('/api/posts', {
+            title: this.state.title,
+            content: this.state.content,
+            category_id: this.state.category_id,
+        }).then(response => this.props.navigate('/'));
     }
 
     componentDidMount() {
@@ -76,4 +86,4 @@ class PostsCreate extends Component {
     }
 }
 
-export default PostsCreate;
+export default withNavigation(PostsCreate);

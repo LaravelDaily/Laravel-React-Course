@@ -2330,7 +2330,8 @@ var PostsCreate = /*#__PURE__*/function (_Component) {
       title: '',
       content: '',
       category_id: '',
-      categories: []
+      categories: [],
+      errors: {}
     };
     _this.handleTitleChange = _this.handleTitleChange.bind(_assertThisInitialized(_this));
     _this.handleContentChange = _this.handleContentChange.bind(_assertThisInitialized(_this));
@@ -2372,6 +2373,10 @@ var PostsCreate = /*#__PURE__*/function (_Component) {
         category_id: this.state.category_id
       }).then(function (response) {
         return _this2.props.navigate('/');
+      })["catch"](function (error) {
+        return _this2.setState({
+          errors: error.response.data.errors
+        });
       });
     }
   }, {
@@ -2383,6 +2388,20 @@ var PostsCreate = /*#__PURE__*/function (_Component) {
         return _this3.setState({
           categories: response.data.data
         });
+      });
+    }
+  }, {
+    key: "errorMessage",
+    value: function errorMessage(field) {
+      var _this$state$errors, _this$state$errors$fi;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "text-red-600 mt-1",
+        children: (_this$state$errors = this.state.errors) === null || _this$state$errors === void 0 ? void 0 : (_this$state$errors$fi = _this$state$errors[field]) === null || _this$state$errors$fi === void 0 ? void 0 : _this$state$errors$fi.map(function (message, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            children: message
+          }, index);
+        })
       });
     }
   }, {
@@ -2401,7 +2420,7 @@ var PostsCreate = /*#__PURE__*/function (_Component) {
             id: "title",
             type: "text",
             className: "block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          })]
+          }), this.errorMessage('title')]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "mt-4",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
@@ -2414,7 +2433,7 @@ var PostsCreate = /*#__PURE__*/function (_Component) {
             id: "content",
             type: "text",
             className: "block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          })]
+          }), this.errorMessage('content')]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "mt-4",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
@@ -2435,7 +2454,7 @@ var PostsCreate = /*#__PURE__*/function (_Component) {
                 children: category.name
               }, index);
             })]
-          })]
+          }), this.errorMessage('category_id')]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "mt-4",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {

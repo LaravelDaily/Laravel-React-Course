@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import PostsIndex from "../Pages/Posts";
 import PostsCreate from "../Pages/Posts/Create";
+import PostsEdit from "../Pages/Posts/Edit";
 
 function App() {
     return (
@@ -44,6 +45,7 @@ function App() {
                                     <Routes>
                                         <Route path="/" element={<PostsIndex/>}></Route>
                                         <Route path="/posts/create" element={<PostsCreate/>}></Route>
+                                        <Route path="/posts/edit/:id" element={<PostsEdit/>}></Route>
                                     </Routes>
                                 </div>
                             </div>

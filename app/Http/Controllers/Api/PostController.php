@@ -46,6 +46,11 @@ class PostController extends Controller
     {
         $post = Post::create($request->validated());
 
+        if ($request->hasFile('thumbnail')) {
+            $filename = $request->file('thumbnail')->getClientOriginalName();
+            info($filename);
+        }
+
         return new PostResource($post);
     }
 
@@ -55,9 +60,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return new PostResource($post);
     }
 
     /**

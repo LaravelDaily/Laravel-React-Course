@@ -1,12 +1,16 @@
 import {Component} from "react";
 import CategoriesService from "../../Services/CategoriesService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const withNavigation = (Component) => {
     return props => <Component {...props} navigate={useNavigate()} />;
 }
 
-class PostsCreate extends Component {
+export const withParams = (Component) => {
+    return props => <Component {...props} params={useParams()} />;
+}
+
+class PostsEdit extends Component {
     constructor(props) {
         super(props);
 
@@ -23,7 +27,6 @@ class PostsCreate extends Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.handleThumbnailChange = this.handleThumbnailChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -37,10 +40,6 @@ class PostsCreate extends Component {
 
     handleCategoryChange(event) {
         this.setState({ category_id: event.target.value });
-    }
-
-    handleThumbnailChange(event) {
-        this.setState({ thumbnail: event.target.files[0] });
     }
 
     handleSubmit(event) {
@@ -57,7 +56,6 @@ class PostsCreate extends Component {
         postData.append('title', this.state.title);
         postData.append('content', this.state.content);
         postData.append('category_id', this.state.category_id);
-        postData.append('thumbnail', this.state.thumbnail);
 
         axios.post('/api/posts', postData).then(response => this.props.navigate('/'))
             .catch(error => this.setState({ errors: error.response.data.errors }))
@@ -65,6 +63,12 @@ class PostsCreate extends Component {
     }
 
     componentDidMount() {
+        this.setState({ isLoading: true });
+        axios.get('/api/posts/' + this.props.params.id).then(response => {
+            this.setState({ title: response.data.data.title } );
+            this.setState({ content: response.data.data.content } );
+            this.setState({ category_id: response.data.data.category_id } );
+        }).finally(() => this.setState({ isLoading: false }));
         CategoriesService.getAll()
             .then(response => this.setState({categories: response.data.data}))
     }
@@ -113,13 +117,6 @@ class PostsCreate extends Component {
                     { this.errorMessage('category_id') }
                 </div>
                 <div className="mt-4">
-                    <label htmlFor="thumbnail" className="block font-medium text-sm text-gray-700">
-                        Thumbnail
-                    </label>
-                    <input type="file" id="thumbnail" onChange={this.handleThumbnailChange} />
-                    { this.errorMessage('thumbnail') }
-                </div>
-                <div className="mt-4">
                     <button type="submit" className="flex items-center px-3 py-2 bg-blue-600 text-white rounded" disabled={this.state.isLoading}>
                         <svg role="status" className={`w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 inline ${!this.state.isLoading ? 'hidden' : ''}`} viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -133,4 +130,4 @@ class PostsCreate extends Component {
     }
 }
 
-export default withNavigation(PostsCreate);
+export default withParams(withNavigation(PostsEdit));

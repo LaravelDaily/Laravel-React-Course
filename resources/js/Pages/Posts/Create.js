@@ -1,6 +1,7 @@
 import {Component} from "react";
 import CategoriesService from "../../Services/CategoriesService";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 export const withNavigation = (Component) => {
     return props => <Component {...props} navigate={useNavigate()} />;
@@ -59,8 +60,20 @@ class PostsCreate extends Component {
         postData.append('category_id', this.state.category_id);
         postData.append('thumbnail', this.state.thumbnail);
 
-        axios.post('/api/posts', postData).then(response => this.props.navigate('/'))
-            .catch(error => this.setState({ errors: error.response.data.errors }))
+        axios.post('/api/posts', postData).then(response => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Post added successfully'
+            });
+            this.props.navigate('/')
+        })
+            .catch(error => {
+                this.setState({ errors: error.response.data.errors })
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response.data.message
+                })
+            })
             .finally(() => this.setState({ isLoading: false }));
     }
 

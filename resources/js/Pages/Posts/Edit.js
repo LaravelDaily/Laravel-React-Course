@@ -15,6 +15,7 @@ class PostsEdit extends Component {
         super(props);
 
         this.state = {
+            id: '',
             title: '',
             content: '',
             category_id: '',
@@ -52,12 +53,11 @@ class PostsEdit extends Component {
             isLoading: true
         });
 
-        let postData = new FormData()
-        postData.append('title', this.state.title);
-        postData.append('content', this.state.content);
-        postData.append('category_id', this.state.category_id);
-
-        axios.post('/api/posts', postData).then(response => this.props.navigate('/'))
+        axios.put('/api/posts/' + this.state.id, {
+            'title': this.state.title,
+            'content': this.state.content,
+            'category_id': this.state.category_id
+        }).then(response => this.props.navigate('/'))
             .catch(error => this.setState({ errors: error.response.data.errors }))
             .finally(() => this.setState({ isLoading: false }));
     }
@@ -65,6 +65,7 @@ class PostsEdit extends Component {
     componentDidMount() {
         this.setState({ isLoading: true });
         axios.get('/api/posts/' + this.props.params.id).then(response => {
+            this.setState({ id: response.data.data.id } );
             this.setState({ title: response.data.data.title } );
             this.setState({ content: response.data.data.content } );
             this.setState({ category_id: response.data.data.category_id } );

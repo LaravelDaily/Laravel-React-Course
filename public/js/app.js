@@ -2652,11 +2652,11 @@ var PostsEdit = /*#__PURE__*/function (_Component) {
         errors: {},
         isLoading: true
       });
-      var postData = new FormData();
-      postData.append('title', this.state.title);
-      postData.append('content', this.state.content);
-      postData.append('category_id', this.state.category_id);
-      axios.put('/api/posts/' + this.state.id, postData).then(function (response) {
+      axios.put('/api/posts/' + this.state.id, {
+        'title': this.state.title,
+        'content': this.state.content,
+        'category_id': this.state.category_id
+      }).then(function (response) {
         return _this2.props.navigate('/');
       })["catch"](function (error) {
         return _this2.setState({

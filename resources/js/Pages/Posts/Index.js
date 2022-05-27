@@ -1,6 +1,7 @@
 import {Component} from "react";
 import CategoriesService from "../../Services/CategoriesService";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 class PostsIndex extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class PostsIndex extends Component {
         this.categoryChanged = this.categoryChanged.bind(this)
         this.pageChanged = this.pageChanged.bind(this)
         this.orderChanged = this.orderChanged.bind(this)
+        this.deletePost = this.deletePost.bind(this)
     }
 
     fetchPosts() {
@@ -51,6 +53,27 @@ class PostsIndex extends Component {
         this.fetchPosts()
     }
 
+    deletePost(event) {
+        Swal.fire({
+            title: 'Delete this post?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#EF4444',
+            cancelButtonText: 'No',
+            cancelButtonColor: '#A3A3A3',
+            reverseButtons: true,
+            focusCancel: true
+        }).then(result => {
+            if (result.isConfirmed) {
+                axios.delete('/api/posts/' + event.target.value)
+                    .then(response => this.fetchPosts())
+                    .catch(error => Swal.fire({ icon: 'error', title: 'Something went wrong' }));
+            }
+        })
+
+    }
+
     renderPosts() {
         return this.state.posts.data.map(post => <tr key={post.id}>
             <td>{post.id}</td>
@@ -58,7 +81,10 @@ class PostsIndex extends Component {
             <td>{post.category.name}</td>
             <td>{post.content}</td>
             <td>{post.created_at}</td>
-            <td><Link to={`posts/edit/${post.id}`}>Edit</Link></td>
+            <td>
+                <Link to={`posts/edit/${post.id}`}>Edit</Link>
+                <button value={post.id} onClick={this.deletePost} type="button" className="bg-red-500 rounded-full text-white px-3 py-1 font-bold">Delete</button>
+            </td>
         </tr>);
     }
 

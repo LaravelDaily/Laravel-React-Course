@@ -16,6 +16,7 @@ class PostsIndex extends Component {
                 category_id: '',
                 title: '',
                 content: '',
+                global: '',
                 order_column: 'id',
                 order_direction: 'desc'
             }
@@ -25,6 +26,7 @@ class PostsIndex extends Component {
         this.handleTitleFilter = this.handleTitleFilter.bind(this)
         this.handleCategoryFilter = this.handleCategoryFilter.bind(this)
         this.handleContentFilter = this.handleContentFilter.bind(this)
+        this.handleGlobalFilter = this.handleGlobalFilter.bind(this)
         this.pageChanged = this.pageChanged.bind(this)
         this.orderChanged = this.orderChanged.bind(this)
         this.deletePost = this.deletePost.bind(this)
@@ -80,6 +82,14 @@ class PostsIndex extends Component {
         }), () => this.fetchPosts())
     }
 
+    handleGlobalFilter(event) {
+        this.setState(({
+            query: {
+                global: event.target.value,
+                page: 1
+            }
+        }), () => this.fetchPosts())
+    }
 
     componentDidMount() {
         CategoriesService.getAll()
@@ -192,7 +202,7 @@ class PostsIndex extends Component {
     renderTextFilter(column, callback) {
         return (
             <div className="m-2">
-                <input type="text" value={this.state.query[column]} onChange={callback} className="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                <input type="text" placeholder="Search..." value={this.state.query[column]} onChange={callback} className="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
             </div>
         )
     }
@@ -240,6 +250,9 @@ class PostsIndex extends Component {
         return (
             <div className="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200">
                 <div className="min-w-full align-middle">
+                    <div className="mb-4">
+                        { this.renderTextFilter('global', this.handleGlobalFilter) }
+                    </div>
                     <table className="table">
                         <thead className="table-header">
                         <tr>

@@ -35,6 +35,15 @@ class PostController extends Controller
                     $query->where($column, 'like', '%' . $value . '%');
                 }
             })
+            ->when($request->filled('global'), function($query) use ($filterable, $request) {
+                foreach ($filterable as $column) {
+                    if ($column == $filterable[0]) {
+                        $query->where($column, 'like', '%' . $request->global . '%');
+                    } else {
+                        $query->orWhere($column, 'like', '%' . $request->global . '%');
+                    }
+                }
+            })
             ->when($request->filled('category_id'), function($query) use ($request) {
                 $query->where('category_id', $request->category_id);
             })

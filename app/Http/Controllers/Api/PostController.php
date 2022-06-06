@@ -26,7 +26,15 @@ class PostController extends Controller
             $orderDirection = 'desc';
         }
 
+        $filterable = ['id', 'title', 'content'];
+        $filterableValues = array_filter($request->only($filterable));
+
         $posts = Post::with('category')
+            ->when(count($filterableValues), function($query) use ($filterableValues) {
+                foreach ($filterableValues as $column => $value) {
+                    $query->where($column, 'like', '%' . $value . '%');
+                }
+            })
             ->when($request->filled('category_id'), function($query) use ($request) {
                 $query->where('category_id', $request->category_id);
             })

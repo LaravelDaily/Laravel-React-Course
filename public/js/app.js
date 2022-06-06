@@ -2879,12 +2879,18 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       categories: [],
       query: {
         page: 1,
+        id: '',
         category_id: '',
+        title: '',
+        content: '',
         order_column: 'id',
         order_direction: 'desc'
       }
     };
-    _this.categoryChanged = _this.categoryChanged.bind(_assertThisInitialized(_this));
+    _this.handleIdFilter = _this.handleIdFilter.bind(_assertThisInitialized(_this));
+    _this.handleTitleFilter = _this.handleTitleFilter.bind(_assertThisInitialized(_this));
+    _this.handleCategoryFilter = _this.handleCategoryFilter.bind(_assertThisInitialized(_this));
+    _this.handleContentFilter = _this.handleContentFilter.bind(_assertThisInitialized(_this));
     _this.pageChanged = _this.pageChanged.bind(_assertThisInitialized(_this));
     _this.orderChanged = _this.orderChanged.bind(_assertThisInitialized(_this));
     _this.deletePost = _this.deletePost.bind(_assertThisInitialized(_this));
@@ -2919,13 +2925,13 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "categoryChanged",
-    value: function categoryChanged(event) {
+    key: "handleIdFilter",
+    value: function handleIdFilter(event) {
       var _this4 = this;
 
       this.setState({
         query: {
-          category_id: event.target.value,
+          id: event.target.value,
           page: 1
         }
       }, function () {
@@ -2933,12 +2939,54 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "handleTitleFilter",
+    value: function handleTitleFilter(event) {
       var _this5 = this;
 
+      this.setState({
+        query: {
+          title: event.target.value,
+          page: 1
+        }
+      }, function () {
+        return _this5.fetchPosts();
+      });
+    }
+  }, {
+    key: "handleCategoryFilter",
+    value: function handleCategoryFilter(event) {
+      var _this6 = this;
+
+      this.setState({
+        query: {
+          category_id: event.target.value,
+          page: 1
+        }
+      }, function () {
+        return _this6.fetchPosts();
+      });
+    }
+  }, {
+    key: "handleContentFilter",
+    value: function handleContentFilter(event) {
+      var _this7 = this;
+
+      this.setState({
+        query: {
+          content: event.target.value,
+          page: 1
+        }
+      }, function () {
+        return _this7.fetchPosts();
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this8 = this;
+
       _Services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__["default"].getAll().then(function (response) {
-        return _this5.setState({
+        return _this8.setState({
           categories: response.data.data
         });
       });
@@ -2947,7 +2995,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "deletePost",
     value: function deletePost(event) {
-      var _this6 = this;
+      var _this9 = this;
 
       sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
         title: 'Delete this post?',
@@ -2962,7 +3010,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       }).then(function (result) {
         if (result.isConfirmed) {
           axios["delete"]('/api/posts/' + event.target.value).then(function (response) {
-            return _this6.fetchPosts();
+            return _this9.fetchPosts();
           })["catch"](function (error) {
             return sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
               icon: 'error',
@@ -2975,7 +3023,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderPosts",
     value: function renderPosts() {
-      var _this7 = this;
+      var _this10 = this;
 
       return this.state.posts.data.map(function (post) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
@@ -2995,7 +3043,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
               children: "Edit"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               value: post.id,
-              onClick: _this7.deletePost,
+              onClick: _this10.deletePost,
               type: "button",
               className: "bg-red-500 rounded-full text-white px-3 py-1 font-bold",
               children: "Delete"
@@ -3005,31 +3053,14 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "renderCategoryFilter",
-    value: function renderCategoryFilter() {
-      var categories = this.state.categories.map(function (category) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
-          value: category.id,
-          children: category.name
-        }, category.id);
-      });
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
-        onChange: this.categoryChanged,
-        className: "mt-1 w-full sm:mt-0 sm:w-1/4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
-          children: "-- all categories --"
-        }), categories]
-      });
-    }
-  }, {
     key: "renderPaginatorLinks",
     value: function renderPaginatorLinks() {
-      var _this8 = this;
+      var _this11 = this;
 
       return this.state.posts.meta.links.map(function (link, index) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
           onClick: function onClick() {
-            return _this8.pageChanged(link.url);
+            return _this11.pageChanged(link.url);
           },
           dangerouslySetInnerHTML: {
             __html: link.label
@@ -3092,7 +3123,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "orderChanged",
     value: function orderChanged(column) {
-      var _this9 = this;
+      var _this12 = this;
 
       var direction = 'asc';
 
@@ -3107,34 +3138,80 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
           order_direction: direction
         }
       }, function () {
-        return _this9.fetchPosts();
+        return _this12.fetchPosts();
+      });
+    }
+  }, {
+    key: "renderTextFilter",
+    value: function renderTextFilter(column, callback) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "m-2",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+          type: "text",
+          value: this.state.query[column],
+          onChange: callback,
+          className: "block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        })
+      });
+    }
+  }, {
+    key: "renderCategoryFilter",
+    value: function renderCategoryFilter() {
+      var categories = this.state.categories.map(function (category) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+          value: category.id,
+          children: category.name
+        }, category.id);
+      });
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "m-2",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+          onChange: this.handleCategoryFilter,
+          className: "mt-1 block w-full sm:mt-0 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+            children: "-- all categories --"
+          }), categories]
+        })
+      });
+    }
+  }, {
+    key: "renderFiltersRow",
+    value: function renderFiltersRow() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+        className: "bg-gray-50",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: this.renderTextFilter('id', this.handleIdFilter)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: this.renderTextFilter('title', this.handleTitleFilter)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: this.renderCategoryFilter()
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: this.renderTextFilter('content', this.handleContentFilter)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {})]
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this10 = this;
+      var _this13 = this;
 
       if (!('data' in this.state.posts)) return;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "overflow-hidden overflow-x-auto p-6 bg-white border-gray-200",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "min-w-full align-middle",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "mb-4",
-            children: this.renderCategoryFilter()
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
             className: "table",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("thead", {
               className: "table-header",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                       children: "ID"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       onClick: function onClick() {
-                        return _this10.orderChanged('id');
+                        return _this13.orderChanged('id');
                       },
                       type: "button",
                       className: "column-sort",
@@ -3147,7 +3224,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
                       children: "Title"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       onClick: function onClick() {
-                        return _this10.orderChanged('title');
+                        return _this13.orderChanged('title');
                       },
                       type: "button",
                       className: "column-sort",
@@ -3173,7 +3250,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
                     })
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {})]
-              })
+              }), this.renderFiltersRow()]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
               className: "table-body",
               children: this.renderPosts()

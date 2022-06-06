@@ -2856,6 +2856,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -2874,6 +2876,9 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, PostsIndex);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "debounceFetchPosts", _.debounce(_this.fetchPosts, 500));
+
     _this.state = {
       posts: [],
       categories: [],
@@ -2929,80 +2934,65 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleIdFilter",
     value: function handleIdFilter(event) {
-      var _this4 = this;
-
       this.setState({
         query: {
           id: event.target.value,
           page: 1
         }
-      }, function () {
-        return _this4.fetchPosts();
       });
+      this.debounceFetchPosts();
     }
   }, {
     key: "handleTitleFilter",
     value: function handleTitleFilter(event) {
-      var _this5 = this;
-
       this.setState({
         query: {
           title: event.target.value,
           page: 1
         }
-      }, function () {
-        return _this5.fetchPosts();
       });
+      this.debounceFetchPosts();
     }
   }, {
     key: "handleCategoryFilter",
     value: function handleCategoryFilter(event) {
-      var _this6 = this;
-
       this.setState({
         query: {
           category_id: event.target.value,
           page: 1
         }
-      }, function () {
-        return _this6.fetchPosts();
       });
+      this.debounceFetchPosts();
     }
   }, {
     key: "handleContentFilter",
     value: function handleContentFilter(event) {
-      var _this7 = this;
-
       this.setState({
         query: {
           content: event.target.value,
           page: 1
         }
-      }, function () {
-        return _this7.fetchPosts();
       });
+      this.debounceFetchPosts();
     }
   }, {
     key: "handleGlobalFilter",
     value: function handleGlobalFilter(event) {
-      var _this8 = this;
-
       this.setState({
         query: {
           global: event.target.value,
           page: 1
         }
-      }, function () {
-        return _this8.fetchPosts();
       });
+      this.debounceFetchPosts();
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this9 = this;
+      var _this4 = this;
 
       _Services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__["default"].getAll().then(function (response) {
-        return _this9.setState({
+        return _this4.setState({
           categories: response.data.data
         });
       });
@@ -3011,7 +3001,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "deletePost",
     value: function deletePost(event) {
-      var _this10 = this;
+      var _this5 = this;
 
       sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
         title: 'Delete this post?',
@@ -3026,7 +3016,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       }).then(function (result) {
         if (result.isConfirmed) {
           axios["delete"]('/api/posts/' + event.target.value).then(function (response) {
-            return _this10.fetchPosts();
+            return _this5.fetchPosts();
           })["catch"](function (error) {
             return sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
               icon: 'error',
@@ -3039,7 +3029,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderPosts",
     value: function renderPosts() {
-      var _this11 = this;
+      var _this6 = this;
 
       return this.state.posts.data.map(function (post) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
@@ -3059,7 +3049,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
               children: "Edit"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               value: post.id,
-              onClick: _this11.deletePost,
+              onClick: _this6.deletePost,
               type: "button",
               className: "bg-red-500 rounded-full text-white px-3 py-1 font-bold",
               children: "Delete"
@@ -3071,12 +3061,12 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderPaginatorLinks",
     value: function renderPaginatorLinks() {
-      var _this12 = this;
+      var _this7 = this;
 
       return this.state.posts.meta.links.map(function (link, index) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
           onClick: function onClick() {
-            return _this12.pageChanged(link.url);
+            return _this7.pageChanged(link.url);
           },
           dangerouslySetInnerHTML: {
             __html: link.label
@@ -3139,7 +3129,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "orderChanged",
     value: function orderChanged(column) {
-      var _this13 = this;
+      var _this8 = this;
 
       var direction = 'asc';
 
@@ -3154,7 +3144,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
           order_direction: direction
         }
       }, function () {
-        return _this13.fetchPosts();
+        return _this8.fetchPosts();
       });
     }
   }, {
@@ -3210,7 +3200,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this14 = this;
+      var _this9 = this;
 
       if (!('data' in this.state.posts)) return;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -3231,7 +3221,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
                       children: "ID"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       onClick: function onClick() {
-                        return _this14.orderChanged('id');
+                        return _this9.orderChanged('id');
                       },
                       type: "button",
                       className: "column-sort",
@@ -3244,7 +3234,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
                       children: "Title"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       onClick: function onClick() {
-                        return _this14.orderChanged('title');
+                        return _this9.orderChanged('title');
                       },
                       type: "button",
                       className: "column-sort",

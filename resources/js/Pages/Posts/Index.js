@@ -46,13 +46,17 @@ class PostsIndex extends Component {
         }), () => this.fetchPosts())
     }
 
+    debounceFetchPosts = _.debounce(this.fetchPosts, 500);
+
     handleIdFilter(event) {
         this.setState(({
             query: {
                 id: event.target.value,
                 page: 1
             }
-        }), () => this.fetchPosts())
+        }));
+
+        this.debounceFetchPosts();
     }
 
     handleTitleFilter(event) {
@@ -61,7 +65,9 @@ class PostsIndex extends Component {
                 title: event.target.value,
                 page: 1
             }
-        }), () => this.fetchPosts())
+        }));
+
+        this.debounceFetchPosts();
     }
 
     handleCategoryFilter(event) {
@@ -70,7 +76,9 @@ class PostsIndex extends Component {
                 category_id: event.target.value,
                 page: 1
             }
-        }), () => this.fetchPosts())
+        }));
+
+        this.debounceFetchPosts();
     }
 
     handleContentFilter(event) {
@@ -79,7 +87,9 @@ class PostsIndex extends Component {
                 content: event.target.value,
                 page: 1
             }
-        }), () => this.fetchPosts())
+        }));
+
+        this.debounceFetchPosts();
     }
 
     handleGlobalFilter(event) {
@@ -88,7 +98,9 @@ class PostsIndex extends Component {
                 global: event.target.value,
                 page: 1
             }
-        }), () => this.fetchPosts())
+        }));
+
+        this.debounceFetchPosts();
     }
 
     componentDidMount() {

@@ -15,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'layouts.app');
 
+Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'store']);
+Route::post('logout', [\App\Http\Controllers\Auth\LoginController::class, 'destroy']);
+
 Route::view('/{any?}', 'layouts.app')->where('any', '.*');

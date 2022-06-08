@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
@@ -11,13 +12,27 @@ export default function Login() {
 
         axios.post('/login', { email, password })
             .then(response => navigate('/posts'))
-
-        console.log(email);
-        console.log(password);
+            .catch(error => {
+                setErrors(Object.entries(error.response.data.errors))
+            })
     }
 
     return (
         <div>
+            { errors.length > 0 && <div>
+                <div className="font-medium text-red-600">
+                    Whoops! Something went wrong.
+                </div>
+
+                <ul className="mt-3 mb-4 list-disc list-inside text-sm text-red-600">
+                    { errors.map((error, index) => {
+                        return (
+                            <li key={index}>{error[1][0]}</li>
+                        )
+                    }) }
+                </ul>
+            </div> }
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email" className="block font-medium text-sm text-gray-700">

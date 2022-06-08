@@ -1,4 +1,4 @@
-import {NavLink, Outlet} from "react-router-dom";
+import {Link, NavLink, Outlet} from "react-router-dom";
 
 function App() {
     return (
@@ -8,9 +8,9 @@ function App() {
                         <div className="flex justify-between h-16">
                             <div className="flex">
                                 <div className="shrink-0 flex items-center">
-                                    <a href="/">
+                                    <Link to="/posts">
                                         React Course
-                                    </a>
+                                    </Link>
                                 </div>
 
                                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

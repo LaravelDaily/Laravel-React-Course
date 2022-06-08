@@ -1,4 +1,5 @@
 import {Link, NavLink, Outlet, useNavigate} from "react-router-dom";
+import { useEffect } from "react";
 
 function App() {
     const navigate = useNavigate();
@@ -7,6 +8,16 @@ function App() {
         axios.post('/logout')
             .then(response => navigate('/login'))
     }
+
+    useEffect(() => {
+        axios.get('/api/user')
+            .then()
+            .catch(error => {
+                if (error.response.status === 401) {
+                    navigate('/login');
+                }
+            })
+    });
 
     return (
             <div className="min-h-screen bg-gray-100">

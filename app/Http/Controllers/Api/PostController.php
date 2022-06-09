@@ -17,6 +17,8 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('post_view');
+
         $orderColumn = $request->input('order_column', 'id');
         $orderDirection = $request->input('order_direction', 'desc');
         if (!in_array($orderColumn, ['id', 'title'])) {
@@ -61,6 +63,8 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $this->authorize('post_create');
+
         $post = Post::create($request->validated());
 
         if ($request->hasFile('thumbnail')) {
@@ -79,6 +83,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $this->authorize('post_view');
+
         return new PostResource($post);
     }
 
@@ -91,6 +97,8 @@ class PostController extends Controller
      */
     public function update(StorePostRequest $request, Post $post)
     {
+        $this->authorize('post_update');
+
         $post->update($request->validated());
 
         return new PostResource($post);
@@ -104,6 +112,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('post_delete');
+
         $post->delete();
 
         return response()->noContent();

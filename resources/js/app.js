@@ -9,6 +9,7 @@ import PostsCreate from "./Pages/Posts/Create";
 import PostsEdit from "./Pages/Posts/Edit";
 import Guest from "./Layouts/Guest";
 import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
 
 const root = createRoot(document.getElementById('app'));
 root.render(
@@ -21,6 +22,9 @@ root.render(
             </Route>
             <Route path="login" element={<Guest/>}>
                 <Route index element={<Login/>}></Route>
+            </Route>
+            <Route path="register" element={<Guest/>}>
+                <Route index element={<Register/>}></Route>
             </Route>
             <Route path="*" element={<Navigate to="/posts" replace />} />
         </Routes>

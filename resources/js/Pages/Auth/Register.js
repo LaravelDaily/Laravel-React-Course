@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [password_confirmation, setPasswordConfirmation] = useState('');
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('/login', { email, password })
+        axios.post('/register', { name, email, password, password_confirmation })
             .then(response => navigate('/posts'))
             .catch(error => {
                 setErrors(Object.entries(error.response.data.errors))
@@ -34,7 +36,24 @@ export default function Login() {
             </div> }
 
             <form onSubmit={handleSubmit}>
+
                 <div>
+                    <label htmlFor="name" className="block font-medium text-sm text-gray-700">
+                        Name
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={name}
+                        onChange={(e) => { setName(e.target.value)} }
+                        className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        required
+                        autoFocus
+                    />
+                </div>
+
+                <div className="mt-4">
                     <label htmlFor="email" className="block font-medium text-sm text-gray-700">
                         Email
                     </label>
@@ -46,7 +65,6 @@ export default function Login() {
                         onChange={(e) => { setEmail(e.target.value)} }
                         className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         required
-                        autoFocus
                     />
                 </div>
 
@@ -66,17 +84,26 @@ export default function Login() {
                     />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <button type="submit" className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 ml-3">
-                        Log in
-                    </button>
+                {/* Password */}
+                <div className="mt-4">
+                    <label htmlFor="password_confirmation" className="block font-medium text-sm text-gray-700">
+                        Confirm Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        value={password_confirmation}
+                        onChange={(e) => { setPasswordConfirmation(e.target.value)} }
+                        className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        required
+                    />
                 </div>
 
-                <div className="mt-4">
-                    Don't have an account?
-                    <Link to="/register" className="text-blue-600 ml-1">
-                        Create an account
-                    </Link>
+                <div className="flex items-center justify-end mt-4">
+                    <button type="submit" className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 ml-3">
+                        Register
+                    </button>
                 </div>
             </form>
         </div>

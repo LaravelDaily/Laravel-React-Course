@@ -1,8 +1,11 @@
 import {Link, NavLink, Outlet, useNavigate} from "react-router-dom";
-import { useEffect } from "react";
+import {useContext, useEffect} from "react";
+import {Ability, AbilityBuilder} from "@casl/ability";
+import {AbilityContext} from "../Abilities/Can";
 
 function App() {
     const navigate = useNavigate();
+    const ability = useContext(AbilityContext)
 
     const handleLogout = (event) => {
         axios.post('/logout')
@@ -11,7 +14,14 @@ function App() {
 
     useEffect(() => {
         axios.get('/api/user')
-            .then()
+            .then(response => {
+                axios.get('/api/abilities')
+                    .then(response => {
+                        const { can, rules } = new AbilityBuilder(Ability);
+                        can(response.data);
+                        ability.update(rules);
+                    })
+            })
             .catch(error => {
                 if (error.response.status === 401) {
                     navigate('/login');

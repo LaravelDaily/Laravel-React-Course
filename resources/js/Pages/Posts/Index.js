@@ -2,6 +2,7 @@ import {Component} from "react";
 import CategoriesService from "../../Services/CategoriesService";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2'
+import { Can } from '../../Abilities/Can'
 
 class PostsIndex extends Component {
     constructor(props) {
@@ -139,7 +140,9 @@ class PostsIndex extends Component {
             <td>{post.created_at}</td>
             <td>
                 <Link to={`posts/edit/${post.id}`}>Edit</Link>
-                <button value={post.id} onClick={this.deletePost} type="button" className="bg-red-500 rounded-full text-white px-3 py-1 font-bold">Delete</button>
+                <Can do="post_delete">
+                    <button value={post.id} onClick={this.deletePost} type="button" className="bg-red-500 rounded-full text-white px-3 py-1 font-bold">Delete</button>
+                </Can>
             </td>
         </tr>);
     }

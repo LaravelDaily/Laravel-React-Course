@@ -2156,6 +2156,51 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Abilities/Ability.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Abilities/Ability.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _casl_ability__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @casl/ability */ "./node_modules/@casl/ability/dist/es6m/index.mjs");
+
+
+var _AbilityBuilder = new _casl_ability__WEBPACK_IMPORTED_MODULE_0__.AbilityBuilder(_casl_ability__WEBPACK_IMPORTED_MODULE_0__.Ability),
+    can = _AbilityBuilder.can,
+    cannot = _AbilityBuilder.cannot,
+    build = _AbilityBuilder.build;
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (build());
+
+/***/ }),
+
+/***/ "./resources/js/Abilities/Can.js":
+/*!***************************************!*\
+  !*** ./resources/js/Abilities/Can.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AbilityContext": () => (/* binding */ AbilityContext),
+/* harmony export */   "Can": () => (/* binding */ Can)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _casl_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @casl/react */ "./node_modules/@casl/react/dist/es6m/index.mjs");
+
+
+var AbilityContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
+var Can = (0,_casl_react__WEBPACK_IMPORTED_MODULE_1__.createContextualCan)(AbilityContext.Consumer);
+
+/***/ }),
+
 /***/ "./resources/js/Layouts/App.js":
 /*!*************************************!*\
   !*** ./resources/js/Layouts/App.js ***!
@@ -2167,18 +2212,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _casl_ability__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @casl/ability */ "./node_modules/@casl/ability/dist/es6m/index.mjs");
+/* harmony import */ var _Abilities_Can__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Abilities/Can */ "./resources/js/Abilities/Can.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
 
 
 function App() {
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useNavigate)();
+  var ability = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Abilities_Can__WEBPACK_IMPORTED_MODULE_1__.AbilityContext);
 
   var handleLogout = function handleLogout(event) {
     axios.post('/logout').then(function (response) {
@@ -2187,38 +2237,47 @@ function App() {
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios.get('/api/user').then()["catch"](function (error) {
+    axios.get('/api/user').then(function (response) {
+      axios.get('/api/abilities').then(function (response) {
+        var _AbilityBuilder = new _casl_ability__WEBPACK_IMPORTED_MODULE_4__.AbilityBuilder(_casl_ability__WEBPACK_IMPORTED_MODULE_4__.Ability),
+            can = _AbilityBuilder.can,
+            rules = _AbilityBuilder.rules;
+
+        can(response.data);
+        ability.update(rules);
+      });
+    })["catch"](function (error) {
       if (error.response.status === 401) {
         navigate('/login');
       }
     });
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "min-h-screen bg-gray-100",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("nav", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("nav", {
       className: "bg-white border-b border-gray-100",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "flex justify-between h-16",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "flex",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "shrink-0 flex items-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
                 to: "/posts",
                 children: "React Course"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "hidden space-x-8 sm:-my-px sm:ml-10 sm:flex",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
                 to: "/",
                 className: function className(_ref) {
                   var isActive = _ref.isActive;
                   return isActive ? "inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out" : "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out";
                 },
                 children: "Posts"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
                 to: "/posts/create",
                 className: function className(_ref2) {
                   var isActive = _ref2.isActive;
@@ -2227,11 +2286,11 @@ function App() {
                 children: "Add post"
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "flex items-center ml-6",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "ml-3 relative",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                 type: "button",
                 onClick: handleLogout,
                 children: "Log out"
@@ -2240,25 +2299,25 @@ function App() {
           })]
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("header", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("header", {
       className: "bg-white shadow",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
           className: "font-semibold text-xl text-gray-800 leading-tight",
           children: "Dashboard"
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("main", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("main", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "py-12",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "max-w-7xl mx-auto sm:px-6 lg:px-8",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "bg-white overflow-hidden shadow-sm sm:rounded-lg",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "p-6 bg-white border-b border-gray-200",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Outlet, {})
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Outlet, {})
             })
           })
         })
@@ -2318,9 +2377,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var _casl_ability__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @casl/ability */ "./node_modules/@casl/ability/dist/es6m/index.mjs");
+/* harmony import */ var _Abilities_Can__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Abilities/Can */ "./resources/js/Abilities/Can.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2332,6 +2393,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -2353,7 +2416,8 @@ function Login() {
       errors = _useState6[0],
       setErrors = _useState6[1];
 
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useNavigate)();
+  var ability = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Abilities_Can__WEBPACK_IMPORTED_MODULE_1__.AbilityContext);
 
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
@@ -2361,33 +2425,41 @@ function Login() {
       email: email,
       password: password
     }).then(function (response) {
-      return navigate('/posts');
+      axios.get('/api/abilities').then(function (response) {
+        var _AbilityBuilder = new _casl_ability__WEBPACK_IMPORTED_MODULE_4__.AbilityBuilder(_casl_ability__WEBPACK_IMPORTED_MODULE_4__.Ability),
+            can = _AbilityBuilder.can,
+            rules = _AbilityBuilder.rules;
+
+        can(response.data);
+        ability.update(rules);
+      });
+      navigate('/posts');
     })["catch"](function (error) {
       setErrors(Object.entries(error.response.data.errors));
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    children: [errors.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: [errors.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "font-medium text-red-600",
         children: "Whoops! Something went wrong."
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
         className: "mt-3 mb-4 list-disc list-inside text-sm text-red-600",
         children: errors.map(function (error, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
             children: error[1][0]
           }, index);
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
       onSubmit: handleSubmit,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
           htmlFor: "email",
           className: "block font-medium text-sm text-gray-700",
           children: "Email"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
           type: "email",
           id: "email",
           name: "email",
@@ -2399,13 +2471,13 @@ function Login() {
           required: true,
           autoFocus: true
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "mt-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
           htmlFor: "password",
           className: "block font-medium text-sm text-gray-700",
           children: "Password"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
           type: "password",
           id: "password",
           name: "password",
@@ -2416,16 +2488,16 @@ function Login() {
           className: "block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
           required: true
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "flex items-center justify-end mt-4",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
           type: "submit",
           className: "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 ml-3",
           children: "Log in"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "mt-4",
-        children: ["Don't have an account?", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+        children: ["Don't have an account?", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
           to: "/register",
           className: "text-blue-600 ml-1",
           children: "Create an account"
@@ -3175,10 +3247,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Services/CategoriesService */ "./resources/js/Services/CategoriesService.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Abilities_Can__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Abilities/Can */ "./resources/js/Abilities/Can.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3202,6 +3275,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -3377,27 +3451,30 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       var _this6 = this;
 
       return this.state.posts.data.map(function (post) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: post.id
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: post.title
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: post.category.name
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: post.content
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: post.created_at
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
               to: "posts/edit/".concat(post.id),
               children: "Edit"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              value: post.id,
-              onClick: _this6.deletePost,
-              type: "button",
-              className: "bg-red-500 rounded-full text-white px-3 py-1 font-bold",
-              children: "Delete"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Abilities_Can__WEBPACK_IMPORTED_MODULE_3__.Can, {
+              "do": "post_delete",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                value: post.id,
+                onClick: _this6.deletePost,
+                type: "button",
+                className: "bg-red-500 rounded-full text-white px-3 py-1 font-bold",
+                children: "Delete"
+              })
             })]
           })]
         }, post.id);
@@ -3409,7 +3486,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       var _this7 = this;
 
       return this.state.posts.meta.links.map(function (link, index) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return _this7.pageChanged(link.url);
           },
@@ -3423,30 +3500,30 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderPaginator",
     value: function renderPaginator() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("nav", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("nav", {
         role: "navigation",
         "aria-label": "Pagination Navigation",
         className: "flex items-center justify-between",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "hidden sm:flex-1 sm:flex sm:items-center sm:justify-between",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
               className: "text-sm text-gray-700 leading-5",
-              children: ["Showing", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+              children: ["Showing", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
                   className: "font-medium",
                   children: [" ", this.state.posts.meta.from, " "]
-                }), "to", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+                }), "to", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
                   className: "font-medium",
                   children: [" ", this.state.posts.meta.to, " "]
                 })]
-              }), "of", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+              }), "of", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
                 className: "font-medium",
                 children: [" ", this.state.posts.meta.total, " "]
               }), "results"]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
               className: "relative z-0 inline-flex shadow-sm rounded-md",
               children: this.renderPaginatorLinks()
             })
@@ -3467,7 +3544,7 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
         }
       }
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
         className: "fa-solid ".concat(icon)
       });
     }
@@ -3495,9 +3572,9 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderTextFilter",
     value: function renderTextFilter(column, callback) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "m-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           type: "text",
           placeholder: "Search...",
           value: this.state.query[column],
@@ -3510,17 +3587,17 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
     key: "renderCategoryFilter",
     value: function renderCategoryFilter() {
       var categories = this.state.categories.map(function (category) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
           value: category.id,
           children: category.name
         }, category.id);
       });
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "m-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
           onChange: this.handleCategoryFilter,
           className: "mt-1 block w-full sm:mt-0 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
             children: "-- all categories --"
           }), categories]
         })
@@ -3529,17 +3606,17 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderFiltersRow",
     value: function renderFiltersRow() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
         className: "bg-gray-50",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
           children: this.renderTextFilter('id', this.handleIdFilter)
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
           children: this.renderTextFilter('title', this.handleTitleFilter)
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
           children: this.renderCategoryFilter()
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
           children: this.renderTextFilter('content', this.handleContentFilter)
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {})]
       });
     }
   }, {
@@ -3548,23 +3625,23 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
       var _this9 = this;
 
       if (!('data' in this.state.posts)) return;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "overflow-hidden overflow-x-auto p-6 bg-white border-gray-200",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "min-w-full align-middle",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "mb-4",
             children: this.renderTextFilter('global', this.handleGlobalFilter)
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
             className: "table",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("thead", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("thead", {
               className: "table-header",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                       children: "ID"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                       onClick: function onClick() {
                         return _this9.orderChanged('id');
                       },
@@ -3573,11 +3650,11 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
                       children: this.orderColumnIcon('id')
                     })]
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                       children: "Title"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                       onClick: function onClick() {
                         return _this9.orderChanged('title');
                       },
@@ -3586,31 +3663,31 @@ var PostsIndex = /*#__PURE__*/function (_Component) {
                       children: this.orderColumnIcon('title')
                     })]
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                       children: "Category"
                     })
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                       children: "Content"
                     })
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                       children: "Created at"
                     })
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {})]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {})]
               }), this.renderFiltersRow()]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
               className: "table-body",
               children: this.renderPosts()
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "mt-4",
             children: this.renderPaginator()
           })]
@@ -3670,8 +3747,8 @@ var CategoriesService = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var _Layouts_App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layouts/App */ "./resources/js/Layouts/App.js");
 /* harmony import */ var _Pages_Posts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Pages/Posts */ "./resources/js/Pages/Posts/index.js");
@@ -3680,7 +3757,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_Guest__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Layouts/Guest */ "./resources/js/Layouts/Guest.js");
 /* harmony import */ var _Pages_Auth_Login__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Pages/Auth/Login */ "./resources/js/Pages/Auth/Login.js");
 /* harmony import */ var _Pages_Auth_Register__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Pages/Auth/Register */ "./resources/js/Pages/Auth/Register.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Abilities_Can__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Abilities/Can */ "./resources/js/Abilities/Can.js");
+/* harmony import */ var _Abilities_Ability__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Abilities/Ability */ "./resources/js/Abilities/Ability.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -3695,43 +3774,48 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
+
 var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_0__.createRoot)(document.getElementById('app'));
-root.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.BrowserRouter, {
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Routes, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-      path: "posts",
-      element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Layouts_App__WEBPACK_IMPORTED_MODULE_1__["default"], {}),
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-        index: true,
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_Posts__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-        path: "/posts/create",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_Posts_Create__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-        path: "/posts/edit/:id",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_Posts_Edit__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+root.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Abilities_Can__WEBPACK_IMPORTED_MODULE_8__.AbilityContext.Provider, {
+  value: _Abilities_Ability__WEBPACK_IMPORTED_MODULE_9__["default"],
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.BrowserRouter, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "posts",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Layouts_App__WEBPACK_IMPORTED_MODULE_1__["default"], {}),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+          index: true,
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Pages_Posts__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+          path: "/posts/create",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Pages_Posts_Create__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+          path: "/posts/edit/:id",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Pages_Posts_Edit__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "login",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Layouts_Guest__WEBPACK_IMPORTED_MODULE_5__["default"], {}),
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+          index: true,
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Pages_Auth_Login__WEBPACK_IMPORTED_MODULE_6__["default"], {})
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "register",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Layouts_Guest__WEBPACK_IMPORTED_MODULE_5__["default"], {}),
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+          index: true,
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Pages_Auth_Register__WEBPACK_IMPORTED_MODULE_7__["default"], {})
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "*",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Navigate, {
+          to: "/posts",
+          replace: true
+        })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-      path: "login",
-      element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Layouts_Guest__WEBPACK_IMPORTED_MODULE_5__["default"], {}),
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-        index: true,
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_Auth_Login__WEBPACK_IMPORTED_MODULE_6__["default"], {})
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-      path: "register",
-      element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Layouts_Guest__WEBPACK_IMPORTED_MODULE_5__["default"], {}),
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-        index: true,
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_Auth_Register__WEBPACK_IMPORTED_MODULE_7__["default"], {})
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-      path: "*",
-      element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Navigate, {
-        to: "/posts",
-        replace: true
-      })
-    })]
+    })
   })
 }));
 
@@ -62042,6 +62126,269 @@ function _extends() {
 
   return _extends.apply(this, arguments);
 }
+
+/***/ }),
+
+/***/ "./node_modules/@casl/ability/dist/es6m/index.mjs":
+/*!********************************************************!*\
+  !*** ./node_modules/@casl/ability/dist/es6m/index.mjs ***!
+  \********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Ability": () => (/* binding */ Ability),
+/* harmony export */   "AbilityBuilder": () => (/* binding */ AbilityBuilder),
+/* harmony export */   "ForbiddenError": () => (/* binding */ ForbiddenError),
+/* harmony export */   "PureAbility": () => (/* binding */ PureAbility),
+/* harmony export */   "buildMongoQueryMatcher": () => (/* binding */ it),
+/* harmony export */   "createAliasResolver": () => (/* binding */ k),
+/* harmony export */   "defineAbility": () => (/* binding */ defineAbility),
+/* harmony export */   "detectSubjectType": () => (/* binding */ S),
+/* harmony export */   "fieldPatternMatcher": () => (/* binding */ at),
+/* harmony export */   "getDefaultErrorMessage": () => (/* binding */ dt),
+/* harmony export */   "hkt": () => (/* binding */ bt),
+/* harmony export */   "mongoQueryMatcher": () => (/* binding */ st),
+/* harmony export */   "subject": () => (/* binding */ R),
+/* harmony export */   "wrapArray": () => (/* binding */ O)
+/* harmony export */ });
+/* harmony import */ var _ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ucast/mongo2js */ "./node_modules/@ucast/mongo/dist/es6m/index.mjs");
+/* harmony import */ var _ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ucast/mongo2js */ "./node_modules/@ucast/js/dist/es6m/index.mjs");
+/* harmony import */ var _ucast_mongo2js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ucast/mongo2js */ "./node_modules/@ucast/mongo2js/dist/es6m/index.mjs");
+function O(t){return Array.isArray(t)?t:[t]}const C="__caslSubjectType__";function R(t,e){if(e)if(!e.hasOwnProperty(C))Object.defineProperty(e,C,{value:t});else if(t!==e[C])throw new Error(`Trying to cast object to subject type ${t} but previously it was casted to ${e[C]}`);return e}const T=t=>{const e=typeof t;return"string"===e||"function"===e};const B=t=>t.modelName||t.name;const P=t=>"string"===typeof t?t:B(t);function S(t){if(t.hasOwnProperty(C))return t[C];return B(t.constructor)}function q(t,e,i){let s=O(e);let n=0;while(n<s.length){const e=s[n++];if(t.hasOwnProperty(e))s=i(s,t[e])}return s}function z(t,e){if("string"===typeof e&&-1!==t.indexOf(e))return e;for(let i=0;i<e.length;i++)if(-1!==t.indexOf(e[i]))return e[i];return null}const D=(t,e)=>t.concat(e);function Y(t,e){if(e in t)throw new Error(`Cannot use "${e}" as an alias because it's reserved action.`);const i=Object.keys(t);const s=(t,i)=>{const s=z(t,i);if(s)throw new Error(`Detected cycle ${s} -> ${t.join(", ")}`);const n="string"===typeof i&&i===e||-1!==t.indexOf(e)||Array.isArray(i)&&-1!==i.indexOf(e);if(n)throw new Error(`Cannot make an alias to "${e}" because this is reserved action`);return t.concat(i)};for(let e=0;e<i.length;e++)q(t,i[e],s)}function k(t,e){if(!e||false!==e.skipValidate)Y(t,e&&e.anyAction||"manage");return e=>q(t,e,D)}function I(t,e,i){for(let s=i;s<e.length;s++)t.push(e[s])}function L(t,e){if(!t||!t.length)return e||[];if(!e||!e.length)return t||[];let i=0;let s=0;const n=[];while(i<t.length&&s<e.length)if(t[i].priority<e[s].priority){n.push(t[i]);i++}else{n.push(e[s]);s++}I(n,t,i);I(n,e,s);return n}function U(t,e,i){let s=t.get(e);if(!s){s=i();t.set(e,s)}return s}const G=t=>t;function H(t,e){if(Array.isArray(t.fields)&&!t.fields.length)throw new Error("`rawRule.fields` cannot be an empty array. https://bit.ly/390miLa");if(t.fields&&!e.fieldMatcher)throw new Error('You need to pass "fieldMatcher" option in order to restrict access by fields');if(t.conditions&&!e.conditionsMatcher)throw new Error('You need to pass "conditionsMatcher" option in order to restrict access by conditions')}class J{constructor(t,e,i=0){H(t,e);this.action=e.resolveAction(t.action);this.subject=t.subject;this.inverted=!!t.inverted;this.conditions=t.conditions;this.reason=t.reason;this.fields=t.fields?O(t.fields):void 0;this.priority=i;this.t=e}i(){if(this.conditions&&!this.o)this.o=this.t.conditionsMatcher(this.conditions);return this.o}get ast(){const t=this.i();return t?t.ast:void 0}matchesConditions(t){if(!this.conditions)return true;if(!t||T(t))return!this.inverted;const e=this.i();return e(t)}matchesField(t){if(!this.fields)return true;if(!t)return!this.inverted;if(this.fields&&!this.u)this.u=this.t.fieldMatcher(this.fields);return this.u(t)}}function K(t,e){const i={value:t,prev:e,next:null};if(e)e.next=i;return i}function N(t){if(t.next)t.next.prev=t.prev;if(t.prev)t.prev.next=t.next;t.next=t.prev=null}const Q=t=>({value:t.value,prev:t.prev,next:t.next});const V=()=>({rules:[],merged:false});const W=()=>new Map;const X=(t,e)=>{if(!t.h&&e.fields)t.h=true};class Z{constructor(t=[],e={}){this.h=false;this.l=new Map;this.p={conditionsMatcher:e.conditionsMatcher,fieldMatcher:e.fieldMatcher,resolveAction:e.resolveAction||G};this.g=e.anyAction||"manage";this.$=e.anySubjectType||"all";this.m=e.detectSubjectType||S;this.A=t;this.j=this.v(t)}get rules(){return this.A}detectSubjectType(t){if(T(t))return t;if(!t)return this.$;return this.m(t)}update(t){const e={rules:t,ability:this,target:this};this.M("update",e);this.A=t;this.j=this.v(t);this.M("updated",e);return this}v(t){const e=new Map;for(let i=t.length-1;i>=0;i--){const s=t.length-i-1;const n=new J(t[i],this.p,s);const r=O(n.action);const o=O(n.subject||this.$);X(this,n);for(let t=0;t<o.length;t++){const i=U(e,o[t],W);for(let t=0;t<r.length;t++)U(i,r[t],V).rules.push(n)}}return e}possibleRulesFor(t,e=this.$){if(!T(e))throw new Error('"possibleRulesFor" accepts only subject types (i.e., string or class) as the 2nd parameter');const i=U(this.j,e,W);const s=U(i,t,V);if(s.merged)return s.rules;const n=t!==this.g&&i.has(this.g)?i.get(this.g).rules:void 0;let r=L(s.rules,n);if(e!==this.$)r=L(r,this.possibleRulesFor(t,this.$));s.rules=r;s.merged=true;return r}rulesFor(t,e,i){const s=this.possibleRulesFor(t,e);if(i&&"string"!==typeof i)throw new Error("The 3rd, `field` parameter is expected to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details");if(!this.h)return s;return s.filter((t=>t.matchesField(i)))}on(t,e){const i=this.l.get(t)||null;const s=K(e,i);this.l.set(t,s);return()=>{const e=this.l.get(t);if(!s.next&&!s.prev&&e===s)this.l.delete(t);else if(s===e)this.l.set(t,s.prev);N(s)}}M(t,e){let i=this.l.get(t)||null;while(null!==i){const t=i.prev?Q(i.prev):null;i.value(e);i=t}}}class PureAbility extends Z{can(...t){const e=this.relevantRuleFor(...t);return!!e&&!e.inverted}relevantRuleFor(t,e,i){const s=this.detectSubjectType(e);const n=this.rulesFor(t,s,i);for(let t=0,i=n.length;t<i;t++)if(n[t].matchesConditions(e))return n[t];return null}cannot(...t){return!this.can(...t)}}const tt={$eq:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$eq,$ne:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$ne,$lt:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$lt,$lte:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$lte,$gt:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$gt,$gte:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$gte,$in:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$in,$nin:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$nin,$all:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$all,$size:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$size,$regex:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$regex,$options:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$options,$elemMatch:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$elemMatch,$exists:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_0__.$exists};const et={eq:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.eq,ne:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.ne,lt:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.lt,lte:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.lte,gt:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.gt,gte:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.gte,in:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.within,nin:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.nin,all:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.all,size:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.size,regex:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.regex,elemMatch:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.elemMatch,exists:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.exists,and:_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_1__.and};const it=(e,i,s)=>(0,_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_2__.createFactory)(Object.assign({},tt,e),Object.assign({},et,i),s);const st=(0,_ucast_mongo2js__WEBPACK_IMPORTED_MODULE_2__.createFactory)(tt,et);const nt=/[-/\\^$+?.()|[\]{}]/g;const rt=/\.?\*+\.?/g;const ot=/\*+/;const ct=/\./g;function ut(t,e,i){const s="*"===i[0]||"."===t[0]&&"."===t[t.length-1]?"+":"*";const n=-1===t.indexOf("**")?"[^.]":".";const r=t.replace(ct,"\\$&").replace(ot,n+s);return e+t.length===i.length?`(?:${r})?`:r}function ht(t,e,i){if("."===t&&("*"===i[e-1]||"*"===i[e+1]))return t;return`\\${t}`}function lt(t){const e=t.map((t=>t.replace(nt,ht).replace(rt,ut)));const i=e.length>1?`(?:${e.join("|")})`:e[0];return new RegExp(`^${i}$`)}const at=t=>{let e;return i=>{if("undefined"===typeof e)e=t.every((t=>-1===t.indexOf("*")))?null:lt(t);return null===e?-1!==t.indexOf(i):e.test(i)}};class Ability extends PureAbility{constructor(t=[],e={}){super(t,Object.assign({conditionsMatcher:st,fieldMatcher:at},e))}}class ft{constructor(t){this._=t}because(t){this._.reason=t;return this}}class AbilityBuilder{constructor(t){this.rules=[];this.F=t;this.can=this.can.bind(this);this.cannot=this.cannot.bind(this);this.build=this.build.bind(this)}can(t,e,i,s){const n={action:t};if(e){n.subject=e;if(Array.isArray(i)||"string"===typeof i)n.fields=i;else if("undefined"!==typeof i)n.conditions=i;if("undefined"!==typeof s)n.conditions=s}this.rules.push(n);return new ft(n)}cannot(t,e,i,s){const n=this.can(t,e,i,s);n._.inverted=true;return n}build(t){return new this.F(this.rules,t)}}function defineAbility(t,e){const i=new AbilityBuilder(Ability);const s=t(i.can,i.cannot);if(s&&"function"===typeof s.then)return s.then((()=>i.build(e)));return i.build(e)}const dt=t=>`Cannot execute "${t.action}" on "${t.subjectType}"`;const pt=function t(e){this.message=e};pt.prototype=Object.create(Error.prototype);class ForbiddenError extends pt{static setDefaultMessage(t){this.O="string"===typeof t?()=>t:t}static from(t){return new this(t)}constructor(t){super("");this.ability=t;if("function"===typeof Error.captureStackTrace){this.name="ForbiddenError";Error.captureStackTrace(this,this.constructor)}}setMessage(t){this.message=t;return this}throwUnlessCan(...t){const e=this.ability.relevantRuleFor(...t);if(e&&!e.inverted)return;this.action=t[0];this.subject=t[1];this.subjectType=P(this.ability.detectSubjectType(t[1]));this.field=t[2];const i=e?e.reason:"";this.message=this.message||i||this.constructor.O(this);throw this}}ForbiddenError.O=dt;var bt=Object.freeze({__proto__:null});
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@casl/react/dist/es6m/index.mjs":
+/*!******************************************************!*\
+  !*** ./node_modules/@casl/react/dist/es6m/index.mjs ***!
+  \******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Can": () => (/* binding */ e),
+/* harmony export */   "createCanBoundTo": () => (/* binding */ r),
+/* harmony export */   "createContextualCan": () => (/* binding */ o),
+/* harmony export */   "useAbility": () => (/* binding */ useAbility)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const s=()=>{};class e extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent{constructor(...t){super(...t);this.t=false;this.i=null;this.o=s}componentWillUnmount(){this.o()}u(t){if(t===this.i)return;this.o();this.i=null;if(t){this.i=t;this.o=t.on("updated",(()=>this.forceUpdate()))}}get allowed(){return this.t}h(){const t=this.props;const i=t.of||t.a||t.an||t.this||t.on;const n=t.not?"cannot":"can";return t.ability[n](t.I||t.do,i,t.field)}render(){this.u(this.props.ability);this.t=this.h();return this.props.passThrough||this.t?this.l():null}l(){const{children:t,ability:i}=this.props;const n="function"===typeof t?t(this.t,i):t;return n}}function r(t){var i,n;return n=i=class extends e{},i.defaultProps={ability:t},n}function o(t){return i=>(0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(t,{children:t=>(0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(e,Object.assign({ability:t},i))})}function useAbility(i){if( true&&"function"!==typeof react__WEBPACK_IMPORTED_MODULE_0__.useContext)throw new Error("You must use React >= 16.8 in order to use useAbility()");const n=react__WEBPACK_IMPORTED_MODULE_0__.useContext(i);const[s,e]=react__WEBPACK_IMPORTED_MODULE_0__.useState();react__WEBPACK_IMPORTED_MODULE_0__.useEffect((()=>n.on("updated",(t=>{if(t.rules!==s)e(t.rules)}))),[]);return n}
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@ucast/core/dist/es6m/index.mjs":
+/*!******************************************************!*\
+  !*** ./node_modules/@ucast/core/dist/es6m/index.mjs ***!
+  \******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CompoundCondition": () => (/* binding */ r),
+/* harmony export */   "Condition": () => (/* binding */ t),
+/* harmony export */   "DocumentCondition": () => (/* binding */ e),
+/* harmony export */   "FieldCondition": () => (/* binding */ o),
+/* harmony export */   "ITSELF": () => (/* binding */ n),
+/* harmony export */   "NULL_CONDITION": () => (/* binding */ s),
+/* harmony export */   "ObjectQueryParser": () => (/* binding */ j),
+/* harmony export */   "buildAnd": () => (/* binding */ w),
+/* harmony export */   "buildOr": () => (/* binding */ b),
+/* harmony export */   "createInterpreter": () => (/* binding */ m),
+/* harmony export */   "createTranslatorFactory": () => (/* binding */ v),
+/* harmony export */   "defaultInstructionParsers": () => (/* binding */ O),
+/* harmony export */   "hasOperators": () => (/* binding */ l),
+/* harmony export */   "identity": () => (/* binding */ a),
+/* harmony export */   "ignoreValue": () => (/* binding */ f),
+/* harmony export */   "isCompound": () => (/* binding */ c),
+/* harmony export */   "object": () => (/* binding */ h),
+/* harmony export */   "optimizedCompoundCondition": () => (/* binding */ u),
+/* harmony export */   "parseInstruction": () => (/* binding */ x)
+/* harmony export */ });
+class t{constructor(t,e){this.operator=t,this.value=e,Object.defineProperty(this,"t",{writable:!0})}get notes(){return this.t}addNote(t){this.t=this.t||[],this.t.push(t)}}class e extends t{}class r extends e{constructor(t,e){if(!Array.isArray(e))throw new Error(`"${t}" operator expects to receive an array of conditions`);super(t,e)}}const n="__itself__";class o extends t{constructor(t,e,r){super(t,r),this.field=e}}const s=new e("__null__",null),i=Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty);function c(t,e){return e instanceof r&&e.operator===t}function u(t,e){return 1===e.length?e[0]:new r(t,function t(e,r,n){const o=n||[];for(let n=0,s=r.length;n<s;n++){const s=r[n];c(e,s)?t(e,s.value,o):o.push(s)}return o}(t,e))}const a=t=>t,h=()=>Object.create(null),f=Object.defineProperty(h(),"__@type@__",{value:"ignore value"});function l(t,e,r=!1){if(!t||t&&t.constructor!==Object)return!1;for(const n in t){if(i(t,n)&&i(e,n)&&(!r||t[n]!==f))return!0}return!1}function d(t){const e=[];for(const r in t)i(t,r)&&t[r]!==f&&e.push(r);return e}function p(t,e){e!==s&&t.push(e)}const w=t=>u("and",t),b=t=>u("or",t),O={compound(t,e,n){const o=(Array.isArray(e)?e:[e]).map(t=>n.parse(t));return new r(t.name,o)},field:(t,e,r)=>new o(t.name,r.field,e),document:(t,r)=>new e(t.name,r)};class j{constructor(t,e=h()){this.o=void 0,this.s=void 0,this.i=void 0,this.u=void 0,this.h=void 0,this.parse=this.parse.bind(this),this.u={operatorToConditionName:e.operatorToConditionName||a,defaultOperatorName:e.defaultOperatorName||"eq",mergeFinalConditions:e.mergeFinalConditions||w},this.o=Object.keys(t).reduce((e,r)=>(e[r]=Object.assign({name:this.u.operatorToConditionName(r)},t[r]),e),{}),this.s=Object.assign({},e.fieldContext,{field:"",query:{},parse:this.parse,hasOperators:t=>l(t,this.o,e.useIgnoreValue)}),this.i=Object.assign({},e.documentContext,{parse:this.parse,query:{}}),this.h=e.useIgnoreValue?d:Object.keys}setParse(t){this.parse=t,this.s.parse=t,this.i.parse=t}parseField(t,e,r,n){const o=this.o[e];if(!o)throw new Error(`Unsupported operator "${e}"`);if("field"!==o.type)throw new Error(`Unexpected ${o.type} operator "${e}" at field level`);return this.s.field=t,this.s.query=n,this.parseInstruction(o,r,this.s)}parseInstruction(t,e,r){"function"==typeof t.validate&&t.validate(t,e);return(t.parse||O[t.type])(t,e,r)}parseFieldOperators(t,e){const r=[],n=this.h(e);for(let o=0,s=n.length;o<s;o++){const s=n[o];if(!this.o[s])throw new Error(`Field query for "${t}" may contain only operators or a plain object as a value`);p(r,this.parseField(t,s,e[s],e))}return r}parse(t){const e=[],r=this.h(t);this.i.query=t;for(let n=0,o=r.length;n<o;n++){const o=r[n],s=t[o],i=this.o[o];if(i){if("document"!==i.type&&"compound"!==i.type)throw new Error(`Cannot use parsing instruction for operator "${o}" in "document" context as it is supposed to be used in  "${i.type}" context`);p(e,this.parseInstruction(i,s,this.i))}else this.s.hasOperators(s)?e.push(...this.parseFieldOperators(o,s)):p(e,this.parseField(o,this.u.defaultOperatorName,s,t))}return this.u.mergeFinalConditions(e)}}function _(t,e){const r=t[e];if("function"!=typeof r)throw new Error(`Unable to interpret "${e}" condition. Did you forget to register interpreter for it?`);return r}function y(t){return t.operator}function m(t,e){const r=e,n=r&&r.getInterpreterName||y;let o;switch(r?r.numberOfArguments:0){case 1:o=e=>{const o=n(e,r);return _(t,o)(e,s)};break;case 3:o=(e,o,i)=>{const c=n(e,r);return _(t,c)(e,o,i,s)};break;default:o=(e,o)=>{const i=n(e,r);return _(t,i)(e,o,s)}}const s=Object.assign({},r,{interpret:o});return s.interpret}function v(t,e){return(r,...n)=>{const o=t(r,...n),s=e.bind(null,o);return s.ast=o,s}}const x=j.prototype.parseInstruction;
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@ucast/js/dist/es6m/index.mjs":
+/*!****************************************************!*\
+  !*** ./node_modules/@ucast/js/dist/es6m/index.mjs ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "all": () => (/* binding */ q),
+/* harmony export */   "allInterpreters": () => (/* binding */ S),
+/* harmony export */   "and": () => (/* binding */ m),
+/* harmony export */   "compare": () => (/* binding */ a),
+/* harmony export */   "createGetter": () => (/* binding */ s),
+/* harmony export */   "createJsInterpreter": () => (/* binding */ l),
+/* harmony export */   "elemMatch": () => (/* binding */ z),
+/* harmony export */   "eq": () => (/* binding */ b),
+/* harmony export */   "exists": () => (/* binding */ _),
+/* harmony export */   "getObjectField": () => (/* binding */ f),
+/* harmony export */   "getObjectFieldCursor": () => (/* binding */ i),
+/* harmony export */   "gt": () => (/* binding */ j),
+/* harmony export */   "gte": () => (/* binding */ w),
+/* harmony export */   "interpret": () => (/* binding */ U),
+/* harmony export */   "lt": () => (/* binding */ h),
+/* harmony export */   "lte": () => (/* binding */ d),
+/* harmony export */   "mod": () => (/* binding */ v),
+/* harmony export */   "ne": () => (/* binding */ A),
+/* harmony export */   "nin": () => (/* binding */ $),
+/* harmony export */   "nor": () => (/* binding */ g),
+/* harmony export */   "not": () => (/* binding */ y),
+/* harmony export */   "or": () => (/* binding */ p),
+/* harmony export */   "regex": () => (/* binding */ O),
+/* harmony export */   "size": () => (/* binding */ x),
+/* harmony export */   "where": () => (/* binding */ E),
+/* harmony export */   "within": () => (/* binding */ N)
+/* harmony export */ });
+/* harmony import */ var _ucast_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ucast/core */ "./node_modules/@ucast/core/dist/es6m/index.mjs");
+function n(r,t,n){for(let e=0,o=r.length;e<o;e++)if(0===n(r[e],t))return!0;return!1}function e(r,t){return Array.isArray(r)&&Number.isNaN(Number(t))}function o(r,t,n){if(!e(r,t))return n(r,t);let o=[];for(let e=0;e<r.length;e++){const u=n(r[e],t);void 0!==u&&(o=o.concat(u))}return o}function u(r){return(t,n,e)=>{const o=e.get(n,t.field);return Array.isArray(o)?o.some(n=>r(t,n,e)):r(t,o,e)}}const c=(r,t)=>r[t];function i(r,t,n){const e=t.lastIndexOf(".");return-1===e?[r,t]:[n(r,t.slice(0,e)),t.slice(e+1)]}function f(t,n,e=c){if(n===_ucast_core__WEBPACK_IMPORTED_MODULE_0__.ITSELF)return t;if(!t)throw new Error(`Unable to get field "${n}" out of ${String(t)}.`);return function(r,t,n){if(-1===t.indexOf("."))return o(r,t,n);const e=t.split(".");let u=r;for(let r=0,t=e.length;r<t;r++)if(u=o(u,e[r],n),!u||"object"!=typeof u)return u;return u}(t,n,e)}function s(r){return(t,n)=>f(t,n,r)}function a(r,t){return r===t?0:r>t?1:-1}function l(r,n={}){return (0,_ucast_core__WEBPACK_IMPORTED_MODULE_0__.createInterpreter)(r,Object.assign({get:f,compare:a},n))}const p=(r,t,{interpret:n})=>r.value.some(r=>n(r,t)),g=(r,t,n)=>!p(r,t,n),m=(r,t,{interpret:n})=>r.value.every(r=>n(r,t)),y=(r,t,{interpret:n})=>!n(r.value[0],t),b=(r,t,{compare:e,get:o})=>{const u=o(t,r.field);return Array.isArray(u)&&!Array.isArray(r.value)?n(u,r.value,e):0===e(u,r.value)},A=(r,t,n)=>!b(r,t,n),d=u((r,t,n)=>{const e=n.compare(t,r.value);return 0===e||-1===e}),h=u((r,t,n)=>-1===n.compare(t,r.value)),j=u((r,t,n)=>1===n.compare(t,r.value)),w=u((r,t,n)=>{const e=n.compare(t,r.value);return 0===e||1===e}),_=(t,n,{get:o})=>{if(t.field===_ucast_core__WEBPACK_IMPORTED_MODULE_0__.ITSELF)return void 0!==n;const[u,c]=i(n,t.field,o),f=r=>!!r&&r.hasOwnProperty(c)===t.value;return e(u,c)?u.some(f):f(u)},v=u((r,t)=>"number"==typeof t&&t%r.value[0]===r.value[1]),x=(t,n,{get:o})=>{const[u,c]=i(n,t.field,o),f=r=>{const n=o(r,c);return Array.isArray(n)&&n.length===t.value};return t.field!==_ucast_core__WEBPACK_IMPORTED_MODULE_0__.ITSELF&&e(u,c)?u.some(f):f(u)},O=u((r,t)=>"string"==typeof t&&r.value.test(t)),N=u((r,t,{compare:e})=>n(r.value,t,e)),$=(r,t,n)=>!N(r,t,n),q=(r,t,{compare:e,get:o})=>{const u=o(t,r.field);return Array.isArray(u)&&r.value.every(r=>n(u,r,e))},z=(r,t,{interpret:n,get:e})=>{const o=e(t,r.field);return Array.isArray(o)&&o.some(t=>n(r.value,t))},E=(r,t)=>r.value.call(t);var M=Object.freeze({__proto__:null,or:p,nor:g,and:m,not:y,eq:b,ne:A,lte:d,lt:h,gt:j,gte:w,exists:_,mod:v,size:x,regex:O,within:N,nin:$,all:q,elemMatch:z,where:E});const S=Object.assign({},M,{in:N}),U=l(S);
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@ucast/mongo/dist/es6m/index.mjs":
+/*!*******************************************************!*\
+  !*** ./node_modules/@ucast/mongo/dist/es6m/index.mjs ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "$all": () => (/* binding */ v),
+/* harmony export */   "$and": () => (/* binding */ c),
+/* harmony export */   "$elemMatch": () => (/* binding */ $),
+/* harmony export */   "$eq": () => (/* binding */ O),
+/* harmony export */   "$exists": () => (/* binding */ m),
+/* harmony export */   "$gt": () => (/* binding */ b),
+/* harmony export */   "$gte": () => (/* binding */ g),
+/* harmony export */   "$in": () => (/* binding */ y),
+/* harmony export */   "$lt": () => (/* binding */ E),
+/* harmony export */   "$lte": () => (/* binding */ j),
+/* harmony export */   "$mod": () => (/* binding */ h),
+/* harmony export */   "$ne": () => (/* binding */ R),
+/* harmony export */   "$nin": () => (/* binding */ x),
+/* harmony export */   "$nor": () => (/* binding */ d),
+/* harmony export */   "$not": () => (/* binding */ u),
+/* harmony export */   "$options": () => (/* binding */ q),
+/* harmony export */   "$or": () => (/* binding */ f),
+/* harmony export */   "$regex": () => (/* binding */ _),
+/* harmony export */   "$size": () => (/* binding */ w),
+/* harmony export */   "$where": () => (/* binding */ A),
+/* harmony export */   "MongoQueryParser": () => (/* binding */ P),
+/* harmony export */   "allParsingInstructions": () => (/* binding */ z),
+/* harmony export */   "defaultParsers": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.defaultInstructionParsers)
+/* harmony export */ });
+/* harmony import */ var _ucast_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ucast/core */ "./node_modules/@ucast/core/dist/es6m/index.mjs");
+function s(e,t){if(!Array.isArray(t))throw new Error(`"${e.name}" expects value to be an array`)}function p(e,t){if(s(e,t),!t.length)throw new Error(`"${e.name}" expects to have at least one element in array`)}const l=e=>(t,r)=>{if(typeof r!==e)throw new Error(`"${t.name}" expects value to be a "${e}"`)},c={type:"compound",validate:p,parse(t,r,{parse:o}){const a=r.map(e=>o(e));return (0,_ucast_core__WEBPACK_IMPORTED_MODULE_0__.optimizedCompoundCondition)(t.name,a)}},f=c,d={type:"compound",validate:p},u={type:"field",validate(e,t){if(!(t&&(t instanceof RegExp||t.constructor===Object)))throw new Error(`"${e.name}" expects to receive either regular expression or object of field operators`)},parse(e,o,a){const n=o instanceof RegExp?new _ucast_core__WEBPACK_IMPORTED_MODULE_0__.FieldCondition("regex",a.field,o):a.parse(o,a);return new _ucast_core__WEBPACK_IMPORTED_MODULE_0__.CompoundCondition(e.name,[n])}},$={type:"field",validate(e,t){if(!t||t.constructor!==Object)throw new Error(`"${e.name}" expects to receive an object with nested query or field level operators`)},parse(e,r,{parse:a,field:n,hasOperators:i}){const s=i(r)?a(r,{field:_ucast_core__WEBPACK_IMPORTED_MODULE_0__.ITSELF}):a(r);return new _ucast_core__WEBPACK_IMPORTED_MODULE_0__.FieldCondition(e.name,n,s)}},w={type:"field",validate:l("number")},y={type:"field",validate:s},x=y,v=y,h={type:"field",validate(e,t){if(!Array.isArray(t)||2!==t.length)throw new Error(`"${e.name}" expects an array with 2 numeric elements`)}},m={type:"field",validate:l("boolean")},g={type:"field",validate:function(e,t){if(!("string"==typeof t||"number"==typeof t||t instanceof Date))throw new Error(`"${e.name}" expects value to be comparable (i.e., string, number or date)`)}},b=g,E=b,j=b,O={type:"field"},R=O,_={type:"field",validate(e,t){if(!(t instanceof RegExp)&&"string"!=typeof t)throw new Error(`"${e.name}" expects value to be a regular expression or a string that represents regular expression`)},parse(e,r,o){const a="string"==typeof r?new RegExp(r,o.query.$options||""):r;return new _ucast_core__WEBPACK_IMPORTED_MODULE_0__.FieldCondition(e.name,o.field,a)}},q={type:"field",parse:()=>_ucast_core__WEBPACK_IMPORTED_MODULE_0__.NULL_CONDITION},A={type:"document",validate:l("function")};var N=Object.freeze({__proto__:null,$and:c,$or:f,$nor:d,$not:u,$elemMatch:$,$size:w,$in:y,$nin:x,$all:v,$mod:h,$exists:m,$gte:g,$gt:b,$lt:E,$lte:j,$eq:O,$ne:R,$regex:_,$options:q,$where:A});class P extends _ucast_core__WEBPACK_IMPORTED_MODULE_0__.ObjectQueryParser{constructor(e){super(e,{defaultOperatorName:"$eq",operatorToConditionName:e=>e.slice(1)})}parse(e,t){return t&&t.field?(0,_ucast_core__WEBPACK_IMPORTED_MODULE_0__.buildAnd)(this.parseFieldOperators(t.field,e)):super.parse(e)}}const z=N;
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@ucast/mongo2js/dist/es6m/index.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/@ucast/mongo2js/dist/es6m/index.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "$all": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$all),
+/* harmony export */   "$and": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$and),
+/* harmony export */   "$elemMatch": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$elemMatch),
+/* harmony export */   "$eq": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$eq),
+/* harmony export */   "$exists": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$exists),
+/* harmony export */   "$gt": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$gt),
+/* harmony export */   "$gte": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$gte),
+/* harmony export */   "$in": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$in),
+/* harmony export */   "$lt": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$lt),
+/* harmony export */   "$lte": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$lte),
+/* harmony export */   "$mod": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$mod),
+/* harmony export */   "$ne": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$ne),
+/* harmony export */   "$nin": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$nin),
+/* harmony export */   "$nor": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$nor),
+/* harmony export */   "$not": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$not),
+/* harmony export */   "$options": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$options),
+/* harmony export */   "$or": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$or),
+/* harmony export */   "$regex": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$regex),
+/* harmony export */   "$size": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$size),
+/* harmony export */   "$where": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.$where),
+/* harmony export */   "CompoundCondition": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.CompoundCondition),
+/* harmony export */   "Condition": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.Condition),
+/* harmony export */   "DocumentCondition": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.DocumentCondition),
+/* harmony export */   "FieldCondition": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.FieldCondition),
+/* harmony export */   "ITSELF": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.ITSELF),
+/* harmony export */   "MongoQueryParser": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.MongoQueryParser),
+/* harmony export */   "NULL_CONDITION": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.NULL_CONDITION),
+/* harmony export */   "ObjectQueryParser": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.ObjectQueryParser),
+/* harmony export */   "all": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.all),
+/* harmony export */   "allInterpreters": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.allInterpreters),
+/* harmony export */   "allParsingInstructions": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.allParsingInstructions),
+/* harmony export */   "and": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.and),
+/* harmony export */   "buildAnd": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.buildAnd),
+/* harmony export */   "buildOr": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.buildOr),
+/* harmony export */   "compare": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.compare),
+/* harmony export */   "createFactory": () => (/* binding */ p),
+/* harmony export */   "createGetter": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.createGetter),
+/* harmony export */   "createInterpreter": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.createInterpreter),
+/* harmony export */   "createJsInterpreter": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.createJsInterpreter),
+/* harmony export */   "createTranslatorFactory": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.createTranslatorFactory),
+/* harmony export */   "defaultInstructionParsers": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.defaultInstructionParsers),
+/* harmony export */   "defaultParsers": () => (/* reexport safe */ _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.defaultParsers),
+/* harmony export */   "elemMatch": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.elemMatch),
+/* harmony export */   "eq": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.eq),
+/* harmony export */   "exists": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.exists),
+/* harmony export */   "filter": () => (/* binding */ j),
+/* harmony export */   "getObjectField": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.getObjectField),
+/* harmony export */   "getObjectFieldCursor": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.getObjectFieldCursor),
+/* harmony export */   "gt": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.gt),
+/* harmony export */   "gte": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.gte),
+/* harmony export */   "guard": () => (/* binding */ a),
+/* harmony export */   "hasOperators": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.hasOperators),
+/* harmony export */   "identity": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.identity),
+/* harmony export */   "ignoreValue": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.ignoreValue),
+/* harmony export */   "interpret": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.interpret),
+/* harmony export */   "isCompound": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.isCompound),
+/* harmony export */   "lt": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.lt),
+/* harmony export */   "lte": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.lte),
+/* harmony export */   "mod": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.mod),
+/* harmony export */   "ne": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.ne),
+/* harmony export */   "nin": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.nin),
+/* harmony export */   "nor": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.nor),
+/* harmony export */   "not": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.not),
+/* harmony export */   "object": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.object),
+/* harmony export */   "optimizedCompoundCondition": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.optimizedCompoundCondition),
+/* harmony export */   "or": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.or),
+/* harmony export */   "parseInstruction": () => (/* reexport safe */ _ucast_core__WEBPACK_IMPORTED_MODULE_0__.parseInstruction),
+/* harmony export */   "regex": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.regex),
+/* harmony export */   "size": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.size),
+/* harmony export */   "squire": () => (/* binding */ u),
+/* harmony export */   "where": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.where),
+/* harmony export */   "within": () => (/* reexport safe */ _ucast_js__WEBPACK_IMPORTED_MODULE_2__.within)
+/* harmony export */ });
+/* harmony import */ var _ucast_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ucast/mongo */ "./node_modules/@ucast/core/dist/es6m/index.mjs");
+/* harmony import */ var _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ucast/mongo */ "./node_modules/@ucast/mongo/dist/es6m/index.mjs");
+/* harmony import */ var _ucast_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ucast/js */ "./node_modules/@ucast/js/dist/es6m/index.mjs");
+function i(o){return o instanceof Date?o.getTime():o&&"function"==typeof o.toJSON?o.toJSON():o}const m=(o,t)=>(0,_ucast_js__WEBPACK_IMPORTED_MODULE_2__.compare)(i(o),i(t));function p(e,c,f){const s=new _ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.MongoQueryParser(e),i=(0,_ucast_js__WEBPACK_IMPORTED_MODULE_2__.createJsInterpreter)(c,Object.assign({compare:m},f));if(f&&f.forPrimitives){const o={field:_ucast_core__WEBPACK_IMPORTED_MODULE_0__.ITSELF},r=s.parse;s.setParse(t=>r(t,o))}return (0,_ucast_core__WEBPACK_IMPORTED_MODULE_0__.createTranslatorFactory)(s.parse,i)}const a=p(_ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.allParsingInstructions,_ucast_js__WEBPACK_IMPORTED_MODULE_2__.allInterpreters),u=p(["$and","$or"].reduce((o,t)=>(o[t]=Object.assign({},o[t],{type:"field"}),o),Object.assign({},_ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.allParsingInstructions,{$nor:Object.assign({},_ucast_mongo__WEBPACK_IMPORTED_MODULE_1__.allParsingInstructions.$nor,{type:"field",parse:_ucast_core__WEBPACK_IMPORTED_MODULE_0__.defaultInstructionParsers.compound})})),_ucast_js__WEBPACK_IMPORTED_MODULE_2__.allInterpreters,{forPrimitives:!0}),j=a;
+//# sourceMappingURL=index.mjs.map
+
 
 /***/ })
 
